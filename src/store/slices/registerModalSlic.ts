@@ -1,7 +1,7 @@
 import { type RegisterModalSlice } from './types'
 
 export const createRegisterModalSlice: RegisterModalSlice = (set) => ({
-  isRegisterModalOpen: true,
+  isRegisterModalOpen: false,
   openRegisterModal: () => set({ isRegisterModalOpen: true }),
   closeRegisterModal: () => set({ isRegisterModalOpen: false })
 })
