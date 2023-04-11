@@ -6,7 +6,7 @@ export function HouseIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 16 16'
     >
       <path
@@ -26,7 +26,7 @@ export function BellIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 16 16'
     >
       <path
@@ -45,7 +45,7 @@ export function UserIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 448 512'
     >
       <path
@@ -64,7 +64,7 @@ export function TwitterIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 16 16'
     >
       <path
@@ -83,7 +83,7 @@ export function LogOutIcon() {
       height='24'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 24 24'
     >
       <path stroke='none' d='M16 13v-2H7V8l-5 4 5 4v-3z' />
@@ -103,7 +103,7 @@ export function FeatherIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 512 512'
     >
       <path
@@ -121,10 +121,29 @@ export function BackArrowIcon() {
       height='16'
       fill='currentColor'
       stroke='currentColor'
-      stroke-width='0'
+      strokeWidth='0'
       viewBox='0 0 24 24'
     >
       <path stroke='none' d='M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z' />
+    </svg>
+  )
+}
+
+export function OutlineCloseIcon() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='16'
+      height='16'
+      fill='currentColor'
+      stroke='currentColor'
+      strokeWidth='0'
+      viewBox='0 0 1024 1024'
+    >
+      <path
+        stroke='none'
+        d='m563.8 512 262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z'
+      />
     </svg>
   )
 }
