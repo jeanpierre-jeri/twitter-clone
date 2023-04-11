@@ -5,6 +5,8 @@
 body {
   min-height: 100vh;
   background-color: #000;
+  overscroll-behavior-y: none;
+  color: white;
 }
 
 svg {
