@@ -65,16 +65,18 @@ export function Modal({
             </button>
           </header>
           {/* Body */}
-          <div className='relative p-10 flex-auto'>{body}</div>
-          {/* Footer */}
-          <footer className='flex flex-col gap-2 p-10'>
-            <form onSubmit={handleSubmit}>
-              <Button disabled={disabled} secondary fullWidth large>
-                {actionLabel}
-              </Button>
-              {footer}
-            </form>
-          </footer>
+          <form onSubmit={handleSubmit}>
+            <div className='relative p-10 flex-auto'>{body}</div>
+            {/* Footer */}
+            <footer className='flex flex-col gap-2 p-10'>
+              <div>
+                <Button disabled={disabled} secondary fullWidth large>
+                  {actionLabel}
+                </Button>
+                {footer}
+              </div>
+            </footer>
+          </form>
         </div>
       </div>
     </div>

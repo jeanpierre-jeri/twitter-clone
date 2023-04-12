@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import { useStore } from '@/store'
 import { Input, Modal } from '@/components'
-
-interface FormData {
-  email: string
-  name: string
-  username: string
-  password: string
-}
+import axios from 'redaxios'
+import { type RegisterFormData } from '@/types'
+import { toast } from 'react-hot-toast'
+import { signIn } from 'next-auth/react'
 
 export function RegisterModal() {
   const { closeRegisterModal, isRegisterModalOpen, openLoginModal } = useStore(
@@ -27,15 +24,23 @@ export function RegisterModal() {
     const form = e.currentTarget
     const formData = new FormData(form)
 
-    const {} = Object.fromEntries(formData) as unknown as FormData
+    const { email, name, password, username } = Object.fromEntries(formData) as unknown as RegisterFormData
 
     try {
       // TODO add Register and Login
+      await axios.post('/api/register', { email, name, password, username })
+
+      toast.success('Account created successfully')
+
+      await signIn('credentials', { email, password })
+
       closeRegisterModal()
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.log(error)
       }
+
+      toast.error('Something went wrong')
     } finally {
       setIsLoading(false)
     }
