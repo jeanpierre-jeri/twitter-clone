@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { type PropsWithChildren } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 
 interface ItemProps extends PropsWithChildren {
   href?: string
@@ -22,13 +22,13 @@ const Item = ({ href, children, onClick, className }: ItemProps) => {
 interface SidebarItemProps {
   label: string
   href?: string
-  icon: JSX.Element
+  icon: ReactNode
   onClick?: () => void
 }
 
 export function SidebarItem({ href, label, onClick, icon }: SidebarItemProps) {
   return (
-    <Item href={href} className='flex items-center text-white' onClick={onClick}>
+    <Item href={href} className='flex items-center text-white w-fit' onClick={onClick}>
       <i className='relative rounded-full h-14 w-14 flex items-center justify-center p-4 hover:bg-slate-300/10 lg:hidden text-white'>
         {icon}
       </i>

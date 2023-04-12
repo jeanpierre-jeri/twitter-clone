@@ -1,8 +1,11 @@
 import { LogOutIcon } from '@/components'
 import { ITEMS } from '@/constants'
 import { SidebarLogo, SidebarItem, SidebarTweetButton } from '@/layouts'
+import { signOut, useSession } from 'next-auth/react'
 
 export function Sidebar() {
+  const { status } = useSession()
+
   return (
     <aside className='col-span-1 min-h-screen pr-4 md:pr-6'>
       <div className='flex flex-col items-end'>
@@ -12,7 +15,7 @@ export function Sidebar() {
             <SidebarItem key={href} href={href} label={label} icon={icon} />
           ))}
 
-          <SidebarItem icon={LogOutIcon()} label='Logout' />
+          {status === 'authenticated' && <SidebarItem onClick={() => signOut()} icon={<LogOutIcon />} label='Logout' />}
           <SidebarTweetButton />
         </div>
       </div>
