@@ -4,16 +4,19 @@ export const ITEMS = [
   {
     label: 'Home',
     href: '/',
-    icon: <HouseIcon />
+    icon: <HouseIcon />,
+    auth: false
   },
   {
     label: 'Notifications',
     href: '/notifications',
-    icon: <BellIcon />
+    icon: <BellIcon />,
+    auth: true
   },
   {
     label: 'Profile',
     href: '/users/123',
-    icon: <UserIcon />
+    icon: <UserIcon />,
+    auth: true
   }
 ]

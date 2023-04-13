@@ -11,8 +11,8 @@ export function Sidebar() {
       <div className='flex flex-col items-end'>
         <div className='space-y-2 lg:w-[230px]'>
           <SidebarLogo />
-          {ITEMS.map(({ href, icon, label }) => (
-            <SidebarItem key={href} href={href} label={label} icon={icon} />
+          {ITEMS.map(({ href, icon, label, auth }) => (
+            <SidebarItem key={href} href={href} label={label} icon={icon} auth={auth} />
           ))}
 
           {status === 'authenticated' && <SidebarItem onClick={() => signOut()} icon={<LogOutIcon />} label='Logout' />}
