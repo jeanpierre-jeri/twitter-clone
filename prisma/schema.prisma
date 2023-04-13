@@ -21,9 +21,9 @@ model User {
   coverImage      String?
   profileImage    String?
   hashedPassword  String?
-  createadAt      DateTime  @default(now())
+  createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  folowwingIds    String[]  @db.ObjectId
+  followingIds    String[]  @db.ObjectId
   hasNotification Boolean?
 
   posts         Post[]
