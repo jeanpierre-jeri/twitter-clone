@@ -11,7 +11,7 @@ export function Header({ label, showBackArrow = false }: Props) {
   return (
     <div className='border-b border-neutral-800 p-5 flex items-center gap-2'>
       {showBackArrow && (
-        <button onClick={() => router.back()} className='hover:opacity-70 transition-opacity text-white'>
+        <button onClick={() => router.back()} className='hover:opacity-70 transition-opacity text-white w-5'>
           <BackArrowIcon />
         </button>
       )}
