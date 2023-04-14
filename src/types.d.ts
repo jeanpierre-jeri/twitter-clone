@@ -8,6 +8,8 @@ export interface RegisterFormData {
   password: string
 }
 
+export type EditFormData = Pick<User, 'name' | 'bio' | 'coverImage' | 'profileImage'>
+
 export type User = Omit<PrismaUser, 'emailVerified' | 'hashedPassword'>
 
 export type UserWithFollowersCount = User & { followersCount: number }
