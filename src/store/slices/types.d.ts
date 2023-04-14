@@ -12,7 +12,14 @@ export interface RegisterModal {
   closeRegisterModal: () => void
 }
 
-export type Store = LoginModal & RegisterModal
+export interface EditModal {
+  isEditModalOpen: boolean
+  openEditModal: () => void
+  closeEditModal: () => void
+}
+
+export type Store = LoginModal & RegisterModal & EditModal
 
 export type LoginModalSlice = StateCreator<Store, [], [], LoginModal>
 export type RegisterModalSlice = StateCreator<Store, [], [], RegisterModal>
+export type EditModalSlice = StateCreator<Store, [], [], EditModal>
