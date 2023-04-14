@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useStore } from '@/store'
 import { Input, Modal } from '@/components'
 import { signIn } from 'next-auth/react'
+import { toast } from 'react-hot-toast'
 
 interface FormData {
   email: string
@@ -20,13 +21,19 @@ export function LoginModal() {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsLoading(true)
     e.preventDefault()
 
     const form = e.currentTarget
     const formData = new FormData(form)
 
     const { email, password } = Object.fromEntries(formData) as unknown as FormData
+
+    if ([email, password].includes('')) {
+      toast.error('Email and password are required')
+      return
+    }
+
+    setIsLoading(true)
 
     try {
       // TODO Add Login

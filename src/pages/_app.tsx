@@ -9,7 +9,7 @@ import '@/styles/globals.css'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
-      <SWRConfig value={{ fetcher }}>
+      <SWRConfig value={{ fetcher, shouldRetryOnError: false }}>
         <Layout>
           <Component {...pageProps} />
         </Layout>

@@ -3,18 +3,30 @@ import { Header } from '@/components'
 import { ClipLoader } from '@/components/spinners'
 import { useUser } from '@/hooks'
 import Head from 'next/head'
-import { UserHero } from '@/components/users'
+import { UserBio, UserHero } from '@/components/users'
 
 export default function UserView() {
   const router = useRouter()
   const { userId } = router.query
-  const { user, isLoading } = useUser(userId as string)
+  const { user, isLoading, error } = useUser(userId as string)
 
-  if (isLoading || !user) {
+  if (isLoading && !error) {
     return (
       <div className='flex justify-center items-center h-full border-sky-200 w-20 mx-auto'>
         <ClipLoader />
       </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <>
+        <Head>
+          <title>Not found / Twitter</title>
+        </Head>
+        <Header label='Go Back' showBackArrow />
+        <h1 className='text-2xl text-center p-8'>No user found</h1>
+      </>
     )
   }
 
@@ -25,6 +37,7 @@ export default function UserView() {
       </Head>
       <Header label={user.name as string} showBackArrow />
       <UserHero userId={user.id} />
+      <UserBio userId={user.id} />
     </>
   )
 }

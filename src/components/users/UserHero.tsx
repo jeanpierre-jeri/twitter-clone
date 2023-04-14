@@ -1,5 +1,6 @@
-import { useUser } from '@/hooks'
 import Image from 'next/image'
+import { useUser } from '@/hooks'
+import { Avatar } from '@/components'
 
 interface UserHeroProps {
   userId: string
@@ -7,13 +8,18 @@ interface UserHeroProps {
 
 export function UserHero({ userId }: UserHeroProps) {
   const { user } = useUser(userId)
+
   return (
-    <div>
-      <picture className='bg-neutral-700 h-44 relative block'>
+    <section>
+      <div className='bg-neutral-700 h-44 relative'>
         {user?.coverImage && (
           <Image src={user.coverImage} fill alt={`Cover Image of ${user.name}`} className='object-cover' />
         )}
-      </picture>
-    </div>
+
+        <div className='absolute -bottom-16 left-4 '>
+          <Avatar userId={userId} isLarge hasBorder />
+        </div>
+      </div>
+    </section>
   )
 }

@@ -21,7 +21,7 @@ export function Layout({ children }: PropsWithChildren) {
       </main>
       <LoginModal />
       <RegisterModal />
-      <Toaster />
+      <Toaster toastOptions={{ style: { backgroundColor: '#262626', color: '#eee' } }} />
     </>
   )
 }
