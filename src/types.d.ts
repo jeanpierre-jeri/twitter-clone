@@ -1,5 +1,5 @@
 import { type userInfo } from './lib/prisma/users'
-import { type User } from '@prisma/client'
+import { type User as PrismaUser } from '@prisma/client'
 
 export interface RegisterFormData {
   email: string
@@ -8,5 +8,6 @@ export interface RegisterFormData {
   password: string
 }
 
-export type User = Pick<User, 'id' | 'name' | 'username' | 'bio' | 'email' | 'image' | 'coverImage' | 'profileImage'>
+export type User = Omit<PrismaUser, 'emailVerified' | 'hashedPassword'>
+
 export type UserWithFollowersCount = User & { followersCount: number }

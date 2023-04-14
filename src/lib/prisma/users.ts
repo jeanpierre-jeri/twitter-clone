@@ -1,4 +1,4 @@
-import { User } from '@/types'
+import { type User } from '@/types'
 import { prisma } from './db'
 
 export const userInfo: Record<keyof User, true> = {
@@ -9,7 +9,11 @@ export const userInfo: Record<keyof User, true> = {
   email: true,
   image: true,
   coverImage: true,
-  profileImage: true
+  profileImage: true,
+  createdAt: true,
+  followingIds: true,
+  hasNotification: true,
+  updatedAt: true
 }
 
 export async function getUsers() {
