@@ -34,8 +34,7 @@ export function EditModal() {
     setIsLoading(true)
 
     const coverImageData = coverImage.size > 0 ? await readFileAsDataUrl(coverImage) : user?.coverImage
-    const profileImageData =
-      profileImage.size > 0 && !user?.profileImage ? await readFileAsDataUrl(profileImage) : user?.profileImage
+    const profileImageData = profileImage.size > 0 ? await readFileAsDataUrl(profileImage) : user?.profileImage
 
     try {
       await axios.patch('/api/users/edit', {
