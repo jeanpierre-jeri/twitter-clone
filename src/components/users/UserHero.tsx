@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useUser } from '@/hooks'
-import { Avatar } from '@/components'
+import { Avatar, NoImageIcon } from '@/components'
 
 interface UserHeroProps {
   userId: string
@@ -12,8 +12,14 @@ export function UserHero({ userId }: UserHeroProps) {
   return (
     <section>
       <div className='bg-neutral-700 h-44 relative'>
-        {user?.coverImage && (
+        {user?.coverImage ? (
           <Image src={user.coverImage} fill alt={`Cover Image of ${user.name}`} className='object-cover' />
+        ) : (
+          <div className='absolute inset-0 flex justify-center items-center'>
+            <i className='w-24 text-neutral-500 pointer-events-none'>
+              <NoImageIcon />
+            </i>
+          </div>
         )}
 
         <div className='absolute -bottom-16 left-4 '>
