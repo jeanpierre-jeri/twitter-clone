@@ -1,4 +1,4 @@
-import { type User } from '@/types'
+import { type EditFormData, type User } from '@/types'
 import { prisma } from './db'
 
 export const userInfo: Record<keyof User, true> = {
@@ -48,4 +48,20 @@ export async function getFollowersCountByUserId(id: string) {
   })
 
   return followersCount
+}
+
+export async function updateUser({ bio, coverImage, id, name, profileImage }: EditFormData & { id: string }) {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id
+    },
+    data: {
+      bio,
+      coverImage,
+      name,
+      profileImage
+    }
+  })
+
+  return updatedUser
 }

@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Sidebar, FollowBar } from '@/layouts'
-import { RegisterModal, LoginModal } from '@/components/modals'
+import { RegisterModal, LoginModal, EditModal } from '@/components/modals'
 import Head from 'next/head'
 
 export function Layout({ children }: PropsWithChildren) {
@@ -21,6 +21,7 @@ export function Layout({ children }: PropsWithChildren) {
       </main>
       <LoginModal />
       <RegisterModal />
+      <EditModal />
       <Toaster toastOptions={{ style: { backgroundColor: '#262626', color: '#eee' } }} />
     </>
   )

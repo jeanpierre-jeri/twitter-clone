@@ -4,6 +4,7 @@ import { useUser } from '@/hooks'
 import { Button } from '../Button'
 import { useSession } from 'next-auth/react'
 import { CalendarIcon } from '../Icons'
+import { useStore } from '@/store'
 
 interface UserBioProps {
   userId: string
@@ -12,6 +13,10 @@ interface UserBioProps {
 export function UserBio({ userId }: UserBioProps) {
   const { user } = useUser(userId)
   const { data: session } = useSession()
+
+  const { openEditModal } = useStore(({ openEditModal }) => ({
+    openEditModal
+  }))
 
   const createdAt = useMemo(() => {
     if (!user?.createdAt) return
@@ -22,7 +27,7 @@ export function UserBio({ userId }: UserBioProps) {
   return (
     <section className='border-b border-neutral-800 pb-4'>
       <div className='flex justify-end p-2'>
-        <Button secondary onClick={() => {}}>
+        <Button secondary onClick={user?.email === session?.user?.email ? openEditModal : () => {}}>
           {user?.email === session?.user?.email ? 'Edit Profile' : 'Follow'}
         </Button>
       </div>

@@ -16,9 +16,9 @@ export function Avatar({ userId, hasBorder = false, isLarge = false }: AvatarPro
       href={`/users/${userId}`}
       onClick={(e) => e.stopPropagation()}
       className={`
-      aspect-square rounded-full hover:opacity-90 transition-opacity relative block
+      aspect-square rounded-full  transition-opacity relative block
       ${hasBorder ? 'border-4 border-black' : ''} 
-      ${isLarge ? 'w-32' : 'w-12'}`}
+      ${isLarge ? 'w-32' : 'w-12 hover:opacity-90'}`}
     >
       <Image
         fill

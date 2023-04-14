@@ -13,7 +13,12 @@ export function UserHero({ userId }: UserHeroProps) {
     <section>
       <div className='bg-neutral-700 h-44 relative'>
         {user?.coverImage ? (
-          <Image src={user.coverImage} fill alt={`Cover Image of ${user.name}`} className='object-cover' />
+          <Image
+            src={user.coverImage}
+            fill
+            alt={`Cover Image of ${user.name}`}
+            className='object-cover brightness-90'
+          />
         ) : (
           <div className='absolute inset-0 flex justify-center items-center'>
             <i className='w-24 text-neutral-500 pointer-events-none'>
