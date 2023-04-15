@@ -26,8 +26,8 @@ export function EditModal() {
     const coverImage = formData.get('coverImage') as File
     const profileImage = formData.get('profileImage') as File
 
-    if (!name) {
-      toast.error('Name are required')
+    if (!name || !bio) {
+      toast.error('Name and bio are required')
       return
     }
 
@@ -35,8 +35,6 @@ export function EditModal() {
 
     const coverImageData = coverImage.size > 0 ? await readFileAsDataUrl(coverImage) : ''
     const profileImageData = profileImage.size > 0 ? await readFileAsDataUrl(profileImage) : ''
-
-    console.log(profileImageData)
 
     try {
       await axios.patch('/api/users/edit', {
