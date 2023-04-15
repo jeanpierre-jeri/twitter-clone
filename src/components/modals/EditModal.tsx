@@ -27,14 +27,16 @@ export function EditModal() {
     const profileImage = formData.get('profileImage') as File
 
     if (!name) {
-      toast.error('Name and Username are required')
+      toast.error('Name are required')
       return
     }
 
     setIsLoading(true)
 
-    const coverImageData = coverImage.size > 0 ? await readFileAsDataUrl(coverImage) : user?.coverImage
-    const profileImageData = profileImage.size > 0 ? await readFileAsDataUrl(profileImage) : user?.profileImage
+    const coverImageData = coverImage.size > 0 ? await readFileAsDataUrl(coverImage) : ''
+    const profileImageData = profileImage.size > 0 ? await readFileAsDataUrl(profileImage) : ''
+
+    console.log(profileImageData)
 
     try {
       await axios.patch('/api/users/edit', {
@@ -43,6 +45,7 @@ export function EditModal() {
         coverImage: coverImageData,
         profileImage: profileImageData
       })
+
       mutate()
       toast.success('Profile updated successfully')
       closeEditModal()
@@ -70,7 +73,12 @@ export function EditModal() {
           <ImageUpload name='profileImage' base64={user?.profileImage || ''} disabled={isLoading}>
             Upload profile Image
           </ImageUpload>
-          <ImageUpload name='coverImage' base64={user?.coverImage || ''} disabled={isLoading}>
+          <ImageUpload
+            name='coverImage'
+            base64={user?.coverImage || ''}
+            disabled={isLoading}
+            className='aspect-video h-[100px] w-auto'
+          >
             Upload cover Image
           </ImageUpload>
         </div>

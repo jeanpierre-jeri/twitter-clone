@@ -7,9 +7,16 @@ interface ImageUploadProps extends PropsWithChildren {
   base64?: string
   disabled?: boolean
   name: string
+  className?: string
 }
 
-export function ImageUpload({ base64: initialState = '', children, disabled = false, name }: ImageUploadProps) {
+export function ImageUpload({
+  base64: initialState = '',
+  children,
+  disabled = false,
+  name,
+  className
+}: ImageUploadProps) {
   const [base64, setBase64] = useState(initialState)
 
   const onDrop = async (files: File[]) => {
@@ -40,7 +47,7 @@ export function ImageUpload({ base64: initialState = '', children, disabled = fa
             height={100}
             width={100}
             alt='Uploaded Image'
-            className='object-cover max-w-full aspect-square'
+            className={`object-cover max-w-full aspect-square ${className}`}
           />
         </div>
       ) : (
