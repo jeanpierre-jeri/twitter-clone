@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router'
 import { Header } from '@/components'
 import { ClipLoader } from '@/components/spinners'
 import { useUser } from '@/hooks'
 import Head from 'next/head'
 import { UserBio, UserHero } from '@/components/users'
+import { useSession } from 'next-auth/react'
 
 export default function UserView() {
-  const router = useRouter()
-  const { userId } = router.query
-  const { user, isLoading, error } = useUser(userId as string)
+  const { data: session } = useSession()
+  const { user, isLoading, error } = useUser(session?.user.id as string)
 
   if (isLoading && !error) {
     return (
