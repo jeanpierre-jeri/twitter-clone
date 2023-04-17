@@ -1,11 +1,15 @@
-import { Header } from '@/components'
-import { ClipLoader } from '@/components/spinners'
-import { useUser } from '@/hooks'
 import Head from 'next/head'
-import { UserBio, UserHero } from '@/components/users'
 import { useSession } from 'next-auth/react'
 
-export default function UserView() {
+import { Header } from '@/components'
+import { ClipLoader } from '@/components/spinners'
+import { UserBio, UserHero } from '@/components/users'
+import { useUser } from '@/hooks'
+
+
+
+
+export default function UserView () {
   const { data: session } = useSession()
   const { user, isLoading, error } = useUser(session?.user.id as string)
 

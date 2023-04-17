@@ -1,5 +1,8 @@
-import { type EditFormData, type User } from '@/types'
 import { prisma } from './db'
+
+import type { EditFormData, User } from '@/types'
+
+
 
 export const userInfo: Record<keyof User, true> = {
   id: true,
@@ -13,54 +16,54 @@ export const userInfo: Record<keyof User, true> = {
   createdAt: true,
   followingIds: true,
   hasNotification: true,
-  updatedAt: true
+  updatedAt: true,
 }
 
-export async function getUsers() {
+export async function getUsers () {
   const users = await prisma.user.findMany({
     orderBy: {
-      createdAt: 'desc'
+      createdAt: 'desc',
     },
-    select: userInfo
+    select: userInfo,
   })
 
   return users
 }
 
-export async function getUserById(id: string) {
+export async function getUserById (id: string) {
   const user = await prisma.user.findUnique({
     where: {
-      id
+      id,
     },
-    select: userInfo
+    select: userInfo,
   })
 
   return user
 }
 
-export async function getFollowersCountByUserId(id: string) {
+export async function getFollowersCountByUserId (id: string) {
   const followersCount = await prisma.user.count({
     where: {
       followingIds: {
-        has: id
-      }
-    }
+        has: id,
+      },
+    },
   })
 
   return followersCount
 }
 
-export async function updateUser({ bio, coverImage, id, name, profileImage }: EditFormData & { id: string }) {
+export async function updateUser ({ bio, coverImage, id, name, profileImage }: EditFormData) {
   const updatedUser = await prisma.user.update({
     where: {
-      id
+      id,
     },
     data: {
       bio,
       coverImage,
       name,
-      profileImage
-    }
+      profileImage,
+    },
   })
 
   return updatedUser

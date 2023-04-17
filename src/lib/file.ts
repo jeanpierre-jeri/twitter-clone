@@ -1,5 +1,5 @@
 export const readFileAsDataUrl = async (file: File): Promise<string | ArrayBuffer | null> => {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const reader = new window.FileReader()
 
     reader.onload = () => {

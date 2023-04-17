@@ -1,15 +1,17 @@
 import type { PropsWithChildren } from 'react'
 
-interface Props extends PropsWithChildren {
+
+
+type Props = {
   secondary?: boolean
   onClick?: () => void
   disabled?: boolean
   outline?: boolean
   fullWidth?: boolean
   large?: boolean
-}
+} & PropsWithChildren
 
-export function Button({ children, disabled, onClick, outline, secondary, fullWidth, large }: Props) {
+export function Button ({ children, disabled, onClick, outline, secondary, fullWidth, large }: Props) {
   return (
     <button
       disabled={disabled}

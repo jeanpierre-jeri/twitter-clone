@@ -1,7 +1,10 @@
-import { Header } from '@/components'
 import Head from 'next/head'
 
-export default function Home() {
+import { Header } from '@/components'
+
+
+
+export default function Home () {
   return (
     <>
       <Head>
