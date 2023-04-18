@@ -33,6 +33,16 @@ export async function getUsers () {
 export async function getUserById (id: string) {
   const user = await prisma.user.findUnique({
     where: {
+      id
+    }
+  })
+
+  return user
+}
+
+export async function getUserByIdWithSelectInfo (id: string) {
+  const user = await prisma.user.findUnique({
+    where: {
       id,
     },
     select: userInfo,
@@ -63,6 +73,19 @@ export async function updateUser ({ bio, coverImage, id, name, profileImage }: E
       coverImage,
       name,
       profileImage,
+    },
+  })
+
+  return updatedUser
+}
+
+export async function updateUserFollowingIds (id: string, followingIds: Array<string>) {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      followingIds,
     },
   })
 

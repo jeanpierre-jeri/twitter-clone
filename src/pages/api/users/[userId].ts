@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getFollowersCountByUserId, getUserById } from '@/lib/prisma/users'
+import { getFollowersCountByUserId, getUserByIdWithSelectInfo } from '@/lib/prisma/users'
 
 
 
@@ -13,7 +13,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     if (!userId) throw new Error('Invalid id')
 
     const [user, followersCount] = await Promise.all([
-      getUserById(userId as string),
+      getUserByIdWithSelectInfo(userId as string),
       getFollowersCountByUserId(userId as string),
     ])
 
