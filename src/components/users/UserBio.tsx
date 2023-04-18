@@ -1,18 +1,23 @@
-import { useMemo } from 'react'
 import { format } from 'date-fns'
-import { useUser } from '@/hooks'
-import { Button } from '../Button'
 import { useSession } from 'next-auth/react'
+import { useMemo } from 'react'
+
+import { Button } from '../Button'
 import { CalendarIcon } from '../Icons'
+
+import { useFollow, useUser } from '@/hooks'
 import { useStore } from '@/store'
 
-interface UserBioProps {
+
+
+type UserBioProps = {
   userId: string
 }
 
-export function UserBio({ userId }: UserBioProps) {
+export function UserBio ({ userId }: UserBioProps) {
   const { user } = useUser(userId)
   const { data: session } = useSession()
+  const { isFollowing, toggleFollow, isLoading } = useFollow(userId)
 
   const { openEditModal } = useStore(({ openEditModal }) => ({
     openEditModal
@@ -24,11 +29,20 @@ export function UserBio({ userId }: UserBioProps) {
     return format(date, 'MMMM yyyy')
   }, [user?.createdAt])
 
+  const isCurrentUser = user?.email === session?.user?.email
+
+  const btnText = useMemo(() => {
+    if (isCurrentUser) return 'Edit Profile'
+
+    if (isFollowing) return 'Unfollow'
+    return 'Follow'
+  }, [isFollowing, isCurrentUser])
+
   return (
     <section className='border-b border-neutral-800 pb-4'>
       <div className='flex justify-end p-2'>
-        <Button secondary onClick={user?.email === session?.user?.email ? openEditModal : () => {}}>
-          {user?.email === session?.user?.email ? 'Edit Profile' : 'Follow'}
+        <Button disabled={isLoading} secondary={!isFollowing} outline={isFollowing} onClick={isCurrentUser ? openEditModal : toggleFollow}>
+          {btnText}
         </Button>
       </div>
       <div className='mt-8 px-4'>
@@ -50,7 +64,7 @@ export function UserBio({ userId }: UserBioProps) {
           </p>
 
           <p className='text-white'>
-            {user?.followersCount || 0} <span className='text-neutral-500'>Followers</span>
+            {user?.followersCount ?? 0} <span className='text-neutral-500'>Followers</span>
           </p>
         </div>
       </div>
