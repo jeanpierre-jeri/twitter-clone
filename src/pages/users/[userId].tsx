@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 import { Header } from '@/components'
+import { PostFeed } from '@/components/posts'
 import { ClipLoader } from '@/components/spinners'
 import { UserBio, UserHero } from '@/components/users'
 import { useUser } from '@/hooks'
@@ -10,8 +11,8 @@ import { useUser } from '@/hooks'
 
 
 export default function UserView () {
-  const { data: session } = useSession()
-  const { user, isLoading, error } = useUser(session?.user.id as string)
+  const router = useRouter()
+  const { user, isLoading, error } = useUser(router.query.userId as string)
 
   if (isLoading && !error) {
     return (
@@ -41,6 +42,7 @@ export default function UserView () {
       <Header label={user.name as string} showBackArrow />
       <UserHero userId={user.id} />
       <UserBio userId={user.id} />
+      <PostFeed userId={user.id} />
     </>
   )
 }
