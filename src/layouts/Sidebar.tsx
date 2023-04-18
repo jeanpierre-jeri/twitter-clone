@@ -1,10 +1,13 @@
-import { LogOutIcon } from '@/components'
-import { SidebarLogo, SidebarItem, SidebarTweetButton } from '@/layouts'
 import { signOut, useSession } from 'next-auth/react'
-import { BellIcon, HouseIcon, UserIcon } from '@/components'
 import { useMemo } from 'react'
 
-export function Sidebar() {
+import { LogOutIcon, BellIcon, HouseIcon, UserIcon } from '@/components'
+import { SidebarLogo, SidebarItem, SidebarTweetButton } from '@/layouts'
+
+
+
+
+export function Sidebar () {
   const { status, data: session } = useSession()
 
   const items = useMemo(() => {
@@ -23,7 +26,7 @@ export function Sidebar() {
       },
       {
         label: 'Profile',
-        href: `/users/${session?.user.id}`,
+        href: `/users/${session?.user.id as string}`,
         icon: <UserIcon />,
         auth: true
       }
@@ -36,10 +39,16 @@ export function Sidebar() {
         <div className='space-y-2 lg:w-[230px]'>
           <SidebarLogo />
           {items.map(({ href, icon, label, auth }) => (
-            <SidebarItem key={href} href={href} label={label} icon={icon} auth={auth} />
+            <SidebarItem
+              key={href}
+              href={href}
+              label={label}
+              icon={icon}
+              auth={auth}
+            />
           ))}
 
-          {status === 'authenticated' && <SidebarItem onClick={() => signOut()} icon={<LogOutIcon />} label='Logout' />}
+          {status === 'authenticated' && <SidebarItem onClick={async () => signOut()} icon={<LogOutIcon />} label='Logout' />}
           <SidebarTweetButton />
         </div>
       </div>

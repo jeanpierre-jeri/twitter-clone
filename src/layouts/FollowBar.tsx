@@ -1,7 +1,11 @@
+import Link from 'next/link'
+
 import { Avatar } from '@/components'
 import { useUsers } from '@/hooks'
 
-export function FollowBar() {
+
+
+export function FollowBar () {
   const { users = [] } = useUsers()
 
   if (users.length === 0) return null
@@ -15,10 +19,10 @@ export function FollowBar() {
           {users.map(({ id, name, username }) => (
             <li key={id} className='flex gap-4 items-center'>
               <Avatar userId={id} />
-              <div className='flex flex-col'>
-                <h3 className='text-white font-semibold text-sm'>{name}</h3>
-                <p className='text-neutral-400 text-sm'>@{username}</p>
-              </div>
+              <Link href={`/users/${id}`} className='flex flex-col'>
+                <h3 className='text-white font-semibold text-sm hover:underline'>{name}</h3>
+                <p className='text-neutral-400 text-sm hover:underline'>@{username}</p>
+              </Link>
             </li>
           ))}
         </ul>
