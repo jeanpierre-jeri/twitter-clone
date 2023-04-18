@@ -1,4 +1,4 @@
-import { type User as PrismaUser } from '@prisma/client'
+import type { User as PrismaUser, Comment, Post } from '@prisma/client'
 
 
 
@@ -18,3 +18,8 @@ export type EditFormData = Pick<User, 'name' | 'bio'> & {
 export type User = Omit<PrismaUser, 'emailVerified' | 'hashedPassword'>
 
 export type UserWithFollowersCount = User & { followersCount: number }
+
+export type PostType = Post & {
+  user: User
+  comments: Array<Comment>
+}
