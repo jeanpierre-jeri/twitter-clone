@@ -13,3 +13,16 @@ export async function removeFollow (userId: string) {
 
   return data
 }
+
+export async function addLike (postId: string) {
+  const { data } = await axios.post(`/api/posts/${postId}/like`)
+
+  return data
+}
+
+
+export async function removeLike (postId: string) {
+  const { data } = await axios.delete(`/api/posts/${postId}/like`)
+
+  return data
+}

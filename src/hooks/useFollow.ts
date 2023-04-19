@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { useUser } from '@/hooks'
-import { addFollow, removeFollow } from '@/lib/prisma/utils'
+import { addFollow, removeFollow } from '@/lib/utils'
 import { useStore } from '@/store'
 
 

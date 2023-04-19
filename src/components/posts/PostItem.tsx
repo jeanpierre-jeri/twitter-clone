@@ -1,11 +1,13 @@
 import { formatDistanceToNowStrict } from 'date-fns'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 import { useMemo } from 'react'
 
 import type { PostType } from '@/types'
 
-import { Avatar, OutlineHeartIcon, OutlineMessageIcon } from '@/components'
+import { Avatar, FillHeartIcon, OutlineHeartIcon, OutlineMessageIcon } from '@/components'
+import { useLike } from '@/hooks'
 import { useStore } from '@/store'
 
 
@@ -15,24 +17,29 @@ type PostItemProps = {
   userId?: string
 }
 
-export function PostItem ({ data }: PostItemProps) {
+export function PostItem ({ data, userId }: PostItemProps) {
   const { openLoginModal } = useStore(({ openLoginModal }) => ({ openLoginModal }))
   const router = useRouter()
+  const { hasLiked, toggleLike, loading } = useLike(data.id, userId ?? '')
+  const { data: session } = useSession()
 
   const goToPost = async () => {
     await router.push(`/posts/${data.id}`)
   }
 
-  const handleLike = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
 
-    openLoginModal()
+    if (!session) return openLoginModal()
+
+    await toggleLike()
   }
 
   const createdAt = useMemo(() => {
     if (!data.createdAt) return ''
     return formatDistanceToNowStrict(new Date(data.createdAt))
   }, [data.createdAt])
+
   return (
     <article onClick={goToPost} className='border-b border-neutral-800 p-5 hover:bg-neutral-900 transition-colors block w-full cursor-pointer'>
       <div className='flex items-start gap-3'>
@@ -55,9 +62,9 @@ export function PostItem ({ data }: PostItemProps) {
               {data?.comments?.length || 0}
             </button>
 
-            <button onClick={handleLike} className='flex items-center text-neutral-500 gap-2 transition-colors hover:text-red-500'>
+            <button disabled={loading} onClick={handleLike} className='flex items-center text-neutral-500 gap-2 transition-colors hover:text-red-500'>
               <i className='w-5'>
-                <OutlineHeartIcon />
+                {hasLiked ? <FillHeartIcon /> : <OutlineHeartIcon />}
               </i>
               {data?.likedIds?.length || 0}
             </button>
