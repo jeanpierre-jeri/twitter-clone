@@ -43,3 +43,24 @@ export async function getPosts () {
 
   return posts
 }
+
+export async function getPostById (postId: string) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId
+    },
+    include: {
+      user: true,
+      comments: {
+        include: {
+          user: true
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      }
+    }
+  })
+
+  return post
+}
