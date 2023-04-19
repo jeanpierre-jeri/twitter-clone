@@ -44,10 +44,10 @@ export async function getPosts () {
   return posts
 }
 
-export async function getPostById (postId: string) {
+export async function getPostByIdWithUserAndComments (id: string) {
   const post = await prisma.post.findUnique({
     where: {
-      id: postId
+      id
     },
     include: {
       user: true,
@@ -59,6 +59,29 @@ export async function getPostById (postId: string) {
           createdAt: 'desc'
         }
       }
+    }
+  })
+
+  return post
+}
+
+export async function getPostById (id: string) {
+  const post = await prisma.post.findUnique({
+    where: {
+      id
+    }
+  })
+
+  return post
+}
+
+export async function updatePostLikedIds (id: string, likedIds: Array<string>) {
+  const post = await prisma.post.update({
+    where: {
+      id
+    },
+    data: {
+      likedIds
     }
   })
 

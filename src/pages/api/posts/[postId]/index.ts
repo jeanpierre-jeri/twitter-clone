@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getPostById } from '@/lib/prisma'
+import { getPostByIdWithUserAndComments } from '@/lib/prisma'
 
 
 
@@ -12,7 +12,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
     if (!postId) throw new Error('No post id provided')
 
-    const post = await getPostById(postId)
+    const post = await getPostByIdWithUserAndComments(postId)
 
     return res.status(200).json(post)
   } catch (error) {
