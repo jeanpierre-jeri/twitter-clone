@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import type { PostType } from '@/types'
 
 import { Form, Header } from '@/components'
-import { PostItem } from '@/components/posts'
+import { CommentFeed, PostItem } from '@/components/posts'
 import { ClipLoader } from '@/components/spinners'
 import { usePost } from '@/hooks'
 
@@ -43,6 +43,7 @@ export default function PostPage () {
       <Header label='Tweet' showBackArrow />
       <PostItem data={post as PostType} />
       <Form postId={post.id} isComment placeholder='Tweet your reply' />
+      <CommentFeed comments={post.comments} />
     </>
   )
 }

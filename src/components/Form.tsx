@@ -1,37 +1,48 @@
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import axios from 'redaxios'
 
 
 import { Avatar, Button } from '@/components'
-import { usePosts, useUser } from '@/hooks'
+import { usePost, usePosts, useUser } from '@/hooks'
 import { useStore } from '@/store'
 
 
 
 type FormProps = {
   placeholder?: string
-  isComment?: boolean
+  isComment?: false
   postId?: string
+} | {
+  placeholder?: string
+  isComment: true
+  postId: string
 }
 
-export function Form ({ placeholder = '' }: FormProps) {
+export function Form ({ placeholder = '', isComment = false, postId = '' }: FormProps) {
   const { openLoginModal, openRegisterModal } = useStore(({ openLoginModal, openRegisterModal }) => ({ openLoginModal, openRegisterModal }))
   const { data: session } = useSession()
   const { user } = useUser(session?.user.id as string)
   const { mutate: mutatePosts } = usePosts()
+  const { mutate: mutatePost } = usePost(postId)
   const [isLoading, setIsLoading] = useState(false)
   const [body, setBody] = useState('')
+  const formRef = useRef<HTMLFormElement>(null)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault()
 
+    setIsLoading(true)
     try {
-      setIsLoading(true)
-      await axios.post('/api/posts', { body })
+      const url = isComment ? `/api/posts/${postId}/comment` : '/api/posts'
+
+      await axios.post(url, { body })
       setBody('')
-      await mutatePosts()
+      await Promise.all([
+        mutatePosts(),
+        mutatePost()
+      ])
       toast.success('Tweet Created')
     } catch (error) {
       toast.error('Something went wrong')
@@ -39,6 +50,11 @@ export function Form ({ placeholder = '' }: FormProps) {
       setIsLoading(false)
     }
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) void handleSubmit()
+  }
+
   return (
     <section className='border-b border-neutral-800 px-5 py-2'>
       {user
@@ -47,9 +63,10 @@ export function Form ({ placeholder = '' }: FormProps) {
             <div>
               <Avatar userId={user.id} />
             </div>
-            <form className='w-full' onSubmit={handleSubmit}>
+            <form className='w-full' onSubmit={handleSubmit} ref={formRef}>
               <textarea
                 value={body}
+                onKeyDown={handleKeyDown}
                 onInput={e => setBody(e.currentTarget.value)}
                 disabled={isLoading}
                 className='disabled:opacity-80 peer resize-none mt-3 w-full bg-black ring-0 outline-none text-xl placeholder-neutral-500 text-white'
