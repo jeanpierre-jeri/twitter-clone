@@ -1,6 +1,6 @@
 import type{ NextApiRequest, NextApiResponse } from 'next'
 
-import { createComment } from '@/lib/prisma'
+import { createComment, createNotification, getPostById, updateUserHasNotification } from '@/lib/prisma'
 import { getSession } from '@/lib/serverAuth'
 
 
@@ -19,7 +19,22 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     if (!postId) throw new Error('Invalid ID')
     if (!body) throw new Error('Body is required')
 
-    const comment = await createComment(body, session.user.id, postId)
+    const [comment, post] = await Promise.all([
+      createComment(body, session.user.id, postId),
+      getPostById(postId)
+    ])
+
+    try {
+      if (post) {
+        const name = post.userId === session.user.id ? 'You' : session.user.name ?? 'Someone'
+        await Promise.all([
+          createNotification(post.userId, `${name} replied to your tweet`),
+          updateUserHasNotification(post.userId, true)
+        ])
+      }
+    } catch (error) {
+      console.error(error)
+    }
 
     return res.status(200).json(comment)
   } catch (error) {

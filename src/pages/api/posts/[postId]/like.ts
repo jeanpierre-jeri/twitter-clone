@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getPostById, updatePostLikedIds } from '@/lib/prisma'
+import { createNotification, getPostById, updatePostLikedIds, updateUserHasNotification } from '@/lib/prisma'
 import { getSession } from '@/lib/serverAuth'
 
 
@@ -17,9 +17,24 @@ export default async function hanlder (req: NextApiRequest, res: NextApiResponse
 
     const post = await getPostById(postId)
 
+    if (!post) throw new Error('No post found')
+
     let likedIds = post?.likedIds ?? []
 
-    if (req.method === 'POST') likedIds.push(session.user.id)
+    if (req.method === 'POST') {
+      likedIds.push(session.user.id)
+
+      try {
+        const name = post.userId === session.user.id ? 'You' : session.user.name ?? 'Someone'
+
+        await Promise.all([
+          createNotification(post.userId, `${name} liked your tweet`),
+          updateUserHasNotification(post.userId, true)
+        ])
+      } catch (error) {
+        console.error(error)
+      }
+    }
     if (req.method === 'DELETE') {
       const updatedLikedIds = likedIds.filter(id => id !== session.user.id)
       likedIds = updatedLikedIds

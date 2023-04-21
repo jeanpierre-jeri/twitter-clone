@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getUserById, updateUserFollowingIds } from '@/lib/prisma/users'
+import { createNotification } from '@/lib/prisma'
+import { getUserById, updateUserFollowingIds, updateUserHasNotification } from '@/lib/prisma/users'
 import { getSession } from '@/lib/serverAuth'
 
 
@@ -19,7 +20,18 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
     let followingIds = [...(user?.followingIds ?? [])]
 
-    if (req.method === 'POST') followingIds.push(userId)
+    if (req.method === 'POST') {
+      followingIds.push(userId)
+
+      try {
+        await Promise.all([
+          createNotification(userId, `${session.user.name ?? 'Someone'} started following you`),
+          updateUserHasNotification(userId, true)
+        ])
+      } catch (error) {
+        console.error(error)
+      }
+    }
 
 
     if (req.method === 'DELETE') followingIds = followingIds.filter(id => id !== userId)

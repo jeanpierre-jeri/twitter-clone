@@ -91,3 +91,16 @@ export async function updateUserFollowingIds (id: string, followingIds: Array<st
 
   return updatedUser
 }
+
+export async function updateUserHasNotification (id: string, hasNotification = false) {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id
+    },
+    data: {
+      hasNotification
+    }
+  })
+
+  return updatedUser
+}
