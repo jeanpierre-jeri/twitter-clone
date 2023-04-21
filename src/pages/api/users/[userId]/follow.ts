@@ -21,7 +21,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     let followingIds = [...(user?.followingIds ?? [])]
 
     if (req.method === 'POST') {
-      followingIds.push(userId)
+      followingIds.push(session.user.id)
 
       try {
         await Promise.all([
@@ -34,7 +34,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     }
 
 
-    if (req.method === 'DELETE') followingIds = followingIds.filter(id => id !== userId)
+    if (req.method === 'DELETE') followingIds = followingIds.filter(id => id !== session.user.id)
 
 
     const updatedUser = await updateUserFollowingIds(session.user.id, followingIds)
