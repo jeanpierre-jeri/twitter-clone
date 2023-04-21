@@ -1,18 +1,20 @@
 import type { StateCreator } from 'zustand'
 
-export interface LoginModal {
+
+
+export type LoginModal = {
   isLoginModalOpen: boolean
   openLoginModal: () => void
   closeLoginModal: () => void
 }
 
-export interface RegisterModal {
+export type RegisterModal = {
   isRegisterModalOpen: boolean
   openRegisterModal: () => void
   closeRegisterModal: () => void
 }
 
-export interface EditModal {
+export type EditModal = {
   isEditModalOpen: boolean
   openEditModal: () => void
   closeEditModal: () => void

@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import { useStore } from '@/store'
-import { Input, Modal } from '@/components'
-import axios from 'redaxios'
-import { type RegisterFormData } from '@/types'
-import { toast } from 'react-hot-toast'
 import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import axios from 'redaxios'
 
-export function RegisterModal() {
+import { Input, Modal } from '@/components'
+import { useStore } from '@/store'
+import { type RegisterFormData } from '@/types'
+
+
+
+
+export function RegisterModal () {
   const { closeRegisterModal, isRegisterModalOpen, openLoginModal } = useStore(
     ({ closeRegisterModal, isRegisterModalOpen, openLoginModal }) => ({
       closeRegisterModal,
@@ -36,9 +40,9 @@ export function RegisterModal() {
 
       closeRegisterModal()
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(error)
-      }
+      if (process.env.NODE_ENV === 'development')
+        console.error(error)
+
 
       toast.error('Something went wrong')
     } finally {

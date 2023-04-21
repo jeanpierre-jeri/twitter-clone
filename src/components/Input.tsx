@@ -1,4 +1,4 @@
-interface Props {
+type Props = {
   placeholder?: string
   name: string
   type?: string
@@ -6,7 +6,7 @@ interface Props {
   defaultValue?: string
 }
 
-export function Input({ placeholder, disabled = false, name, type = 'text', defaultValue = '' }: Props) {
+export function Input ({ placeholder, disabled = false, name, type = 'text', defaultValue = '' }: Props) {
   return (
     <input
       disabled={disabled}

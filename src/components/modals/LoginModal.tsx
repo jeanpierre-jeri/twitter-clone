@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import { useStore } from '@/store'
-import { Input, Modal } from '@/components'
 import { signIn } from 'next-auth/react'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
-interface FormData {
+import { Input, Modal } from '@/components'
+import { useStore } from '@/store'
+
+
+
+type FormData = {
   email: string
   password: string
 }
 
-export function LoginModal() {
+export function LoginModal () {
   const { closeLoginModal, isLoginModalOpen, openRegisterModal } = useStore(
     ({ closeLoginModal, isLoginModalOpen, openRegisterModal }) => ({
       closeLoginModal,
@@ -41,9 +44,8 @@ export function LoginModal() {
 
       closeLoginModal()
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(error)
-      }
+      if (process.env.NODE_ENV === 'development')
+        console.error(error)
     } finally {
       setIsLoading(false)
     }

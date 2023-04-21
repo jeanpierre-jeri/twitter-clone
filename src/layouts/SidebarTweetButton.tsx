@@ -1,8 +1,10 @@
 import { FeatherIcon } from '@/components'
 import { useStore } from '@/store'
 
-export function SidebarTweetButton() {
-  const openLoginModal = useStore((state) => state.openLoginModal)
+
+
+export function SidebarTweetButton () {
+  const openLoginModal = useStore(state => state.openLoginModal)
   const handleClick = () => {
     openLoginModal()
   }

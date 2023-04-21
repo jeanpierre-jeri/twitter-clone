@@ -1,17 +1,22 @@
-import { Children, PropsWithChildren, useEffect } from 'react'
-import { OutlineCloseIcon } from './Icons'
-import { Button } from './Button'
+import { Children, useEffect } from 'react'
 
-interface Props extends PropsWithChildren {
+import { Button } from './Button'
+import { OutlineCloseIcon } from './Icons'
+
+import type { PropsWithChildren } from 'react'
+
+
+
+type Props = {
   isOpen?: boolean
   onClose?: () => void
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void
   title?: string
   actionLabel: string
   disabled?: boolean
-}
+} & PropsWithChildren
 
-export function Modal({
+export function Modal ({
   isOpen = false,
   onClose,
   onSubmit,
@@ -33,7 +38,7 @@ export function Modal({
   }
 
   useEffect(() => {
-    const scrollbarWidth = window.innerWidth - document.body.clientWidth + 'px'
+    const scrollbarWidth = `${window.innerWidth - document.body.clientWidth}px`
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = scrollbarWidth
@@ -52,7 +57,7 @@ export function Modal({
       className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70'
     >
       <div
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         className='relative w-full lg:w-3/6 my-6 mx-auto lg:max-w-3xl h-full lg:h-auto'
       >
         {/* Content */}

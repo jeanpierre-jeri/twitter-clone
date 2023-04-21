@@ -1,9 +1,12 @@
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { compare } from 'bcrypt'
 import NextAuth, { type AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
-import { compare } from 'bcrypt'
+
 import { prisma } from '@/lib/prisma/db'
+
+
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,10 +23,10 @@ export const authOptions: AuthOptions = {
           type: 'text'
         }
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+      async authorize (credentials) {
+        if (!credentials?.email || !credentials?.password)
           throw new Error('Email and password required')
-        }
+
 
         const user = await prisma.user.findUnique({
           where: {
@@ -31,15 +34,15 @@ export const authOptions: AuthOptions = {
           }
         })
 
-        if (!user || !user.hashedPassword) {
+        if (!user || !user.hashedPassword)
           throw new Error('Invalid credentials')
-        }
+
 
         const isCorrectPassword = await compare(credentials.password, user.hashedPassword)
 
-        if (!isCorrectPassword) {
+        if (!isCorrectPassword)
           throw new Error('Incorrect password')
-        }
+
 
         return user
       }
@@ -51,7 +54,7 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXT_AUTH_SECRET,
   callbacks: {
-    async session({ session, token }) {
+    async session ({ session, token }) {
       session.user.id = token.sub
       return session
     }

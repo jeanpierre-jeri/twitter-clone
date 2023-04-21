@@ -1,13 +1,16 @@
-import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useStore } from '@/store'
-import { useUser } from '@/hooks'
-import { Modal, Input, ImageUpload } from '@/components'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import axios from 'redaxios'
-import { readFileAsDataUrl } from '@/lib/file'
 
-export function EditModal() {
+import { Modal, Input, ImageUpload } from '@/components'
+import { useUser } from '@/hooks'
+import { readFileAsDataUrl } from '@/lib/file'
+import { useStore } from '@/store'
+
+
+
+export function EditModal () {
   const router = useRouter()
   const { user, mutate } = useUser((router.query?.userId as string) || '')
   const { closeEditModal, isEditModalOpen } = useStore(({ closeEditModal, isEditModalOpen }) => ({
@@ -44,13 +47,13 @@ export function EditModal() {
         profileImage: profileImageData
       })
 
-      mutate()
+      void mutate()
       toast.success('Profile updated successfully')
       closeEditModal()
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(error)
-      }
+      if (process.env.NODE_ENV === 'development')
+        console.error(error)
+
       toast.error('Something went wrong')
     } finally {
       setIsLoading(false)
@@ -68,12 +71,12 @@ export function EditModal() {
     >
       <div className='flex flex-col gap-4'>
         <div className='flex flex-col md:flex-row justify-center gap-4'>
-          <ImageUpload name='profileImage' base64={user?.profileImage || ''} disabled={isLoading}>
+          <ImageUpload name='profileImage' base64={user?.profileImage ?? ''} disabled={isLoading}>
             Upload profile Image
           </ImageUpload>
           <ImageUpload
             name='coverImage'
-            base64={user?.coverImage || ''}
+            base64={user?.coverImage ?? ''}
             disabled={isLoading}
             className='aspect-video h-[100px] w-auto'
           >
@@ -81,9 +84,9 @@ export function EditModal() {
           </ImageUpload>
         </div>
 
-        <Input name='name' placeholder='Name' disabled={isLoading} defaultValue={user?.name || ''} />
+        <Input name='name' placeholder='Name' disabled={isLoading} defaultValue={user?.name ?? ''} />
 
-        <Input name='bio' placeholder='Bio' disabled={isLoading} defaultValue={user?.bio || ''} />
+        <Input name='bio' placeholder='Bio' disabled={isLoading} defaultValue={user?.bio ?? ''} />
       </div>
     </Modal>
   )
