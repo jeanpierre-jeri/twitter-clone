@@ -15,13 +15,13 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const session = await getSession(req, res)
     if (!session.user.id) throw new Error('Not authenticated')
 
-    const user = await getUserById(session.user.id)
+    const user = await getUserById(userId)
     if (!user) throw new Error('Invalid user id')
 
     let followingIds = [...(user?.followingIds ?? [])]
 
     if (req.method === 'POST') {
-      followingIds.push(userId)
+      followingIds.push(session.user.id)
 
       try {
         await Promise.all([
@@ -34,10 +34,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     }
 
 
-    if (req.method === 'DELETE') followingIds = followingIds.filter(id => id !== userId)
+    if (req.method === 'DELETE') followingIds = followingIds.filter(id => id !== session.user.id)
 
 
-    const updatedUser = await updateUserFollowingIds(session.user.id, followingIds)
+    const updatedUser = await updateUserFollowingIds(userId, followingIds)
 
     return res.status(200).json(updatedUser)
   } catch (error) {
