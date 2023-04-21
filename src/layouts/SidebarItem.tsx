@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
+import { DotIcon } from '@/components'
 import { useStore } from '@/store'
 
 
@@ -13,6 +14,7 @@ type ItemProps = {
   onClick?: () => void
   className: string
   auth?: boolean
+
 } & PropsWithChildren
 
 const Item = ({ href, children, onClick, className, auth = false }: ItemProps) => {
@@ -54,17 +56,20 @@ type SidebarItemProps = {
   icon: ReactNode
   onClick?: () => void
   auth?: boolean
+  alert?: boolean
 }
 
-export function SidebarItem ({ href, label, onClick, icon, auth = false }: SidebarItemProps) {
+export function SidebarItem ({ href, label, onClick, icon, auth = false, alert = false }: SidebarItemProps) {
   return (
     <Item href={href} className='flex items-center text-white w-fit' onClick={onClick} auth={auth}>
       <i className='relative rounded-full h-14 w-14 flex items-center justify-center p-4 hover:bg-slate-300/10 lg:hidden text-white'>
         {icon}
+        {alert ? <DotIcon className='text-sky-500 absolute -top-4 left-1 w-16 pointer-events-none' /> : null}
       </i>
       <div className='text-white relative hidden lg:flex gap-4 p-4 rounded-full hover:bg-slate-300/10 items-center'>
         <i className='w-6'>{icon}</i>
         <h3 className='hidden lg:block text-white text-xl'>{label}</h3>
+        {alert ? <DotIcon className='text-sky-500 absolute -top-3 left-1 w-16 pointer-events-none' /> : null}
       </div>
     </Item>
   )
