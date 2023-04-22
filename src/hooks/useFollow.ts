@@ -11,15 +11,15 @@ import { useStore } from '@/store'
 export function useFollow (userId: string) {
   const { data: session } = useSession()
   const { user: currentUser, mutate: mutateCurrentUser } = useUser(session?.user.id as string)
-  const { mutate: mutateUser } = useUser(userId)
+  const { mutate: mutateUser, user } = useUser(userId)
   const [isLoading, setIsLoading] = useState(false)
 
   const openLoginModal = useStore(state => state.openLoginModal)
 
-  const isFollowing = currentUser?.followingIds?.includes(userId)
+  const isFollowing = user?.followingIds?.includes(currentUser?.id ?? '')
 
   const toggleFollow = async () => {
-    if (!currentUser) return openLoginModal()
+    if (!session) return openLoginModal()
 
     try {
       setIsLoading(true)
