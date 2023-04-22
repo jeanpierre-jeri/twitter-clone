@@ -14,6 +14,8 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     if (req.method === 'POST') {
       const { body = '' } = req.body as { body: string }
 
+      if (body.trim() === '') throw new Error('Body cannot be empty')
+
       const post = await createPost({ body, userId: session.user.id! })
       return res.status(200).json(post)
     }

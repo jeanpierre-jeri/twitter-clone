@@ -14,10 +14,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     if (!session.user.id) throw new Error('Not authenticated')
 
     const { postId } = req.query as { postId: string }
-    const { body } = req.body as { body: string }
+    const { body = '' } = req.body as { body: string }
 
     if (!postId) throw new Error('Invalid ID')
-    if (!body) throw new Error('Body is required')
+    if (body.trim() === '') throw new Error('Body is required')
 
     const [comment, post] = await Promise.all([
       createComment(body, session.user.id, postId),
