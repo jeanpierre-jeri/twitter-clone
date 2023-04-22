@@ -52,7 +52,7 @@ export function PostItem ({ data, userId }: PostItemProps) {
             <Link href={`/users/${data?.user?.id}`} className='text-neutral-500 hover:underline hidden md:block'>@{data?.user?.username}</Link>
             <time className='text-neutral-500 text-sm'>{createdAt}</time>
           </div>
-          <p className='text-white mt-1'>{data?.body}</p>
+          <p className='text-white mt-1 cursor-auto w-fit' onClick={e => e.stopPropagation()}>{data?.body}</p>
 
           <div className='flex items-center mt-3 gap-10'>
             <button className='flex items-center text-neutral-500 gap-2 transition-colors hover:text-sky-500'>
