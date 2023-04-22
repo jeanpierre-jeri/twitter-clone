@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
+
 import { FeatherIcon } from '@/components'
 import { useStore } from '@/store'
 
@@ -5,8 +8,13 @@ import { useStore } from '@/store'
 
 export function SidebarTweetButton () {
   const openLoginModal = useStore(state => state.openLoginModal)
+  const { data: session } = useSession()
+  const router = useRouter()
+
   const handleClick = () => {
-    openLoginModal()
+    if (!session) return openLoginModal()
+
+    void router.push('/')
   }
   return (
     <button onClick={handleClick} className='w-full'>
