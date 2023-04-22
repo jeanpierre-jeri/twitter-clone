@@ -15,7 +15,7 @@ export default function Home () {
       </Head>
       <Header label='Home' />
       <Form placeholder="What's happening?" />
-      {!!session && <PostFeed />}
+      {!!session && <PostFeed /> }
     </>
   )
 }
