@@ -16,7 +16,7 @@ export function useFollow (userId: string) {
 
   const openLoginModal = useStore(state => state.openLoginModal)
 
-  const isFollowing = currentUser?.followingIds?.includes(currentUser.id)
+  const isFollowing = currentUser?.followingIds?.includes(userId)
 
   const toggleFollow = async () => {
     if (!currentUser) return openLoginModal()
