@@ -33,9 +33,16 @@ export function Form ({ placeholder = '', isComment = false, postId = '' }: Form
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
 
-    setIsLoading(true)
+    if (body.trim() === '') {
+      toast.error('Tweet cannot be empty')
+      setBody('')
+      return
+    }
+
     try {
+      setIsLoading(true)
       const url = isComment ? `/api/posts/${postId}/comment` : '/api/posts'
+
 
       await axios.post(url, { body })
       setBody('')
