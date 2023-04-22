@@ -25,6 +25,7 @@ export async function getUsers () {
       createdAt: 'desc',
     },
     select: userInfo,
+    take: 8
   })
 
   return users
