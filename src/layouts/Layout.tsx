@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useSession } from 'next-auth/react'
 import { type PropsWithChildren } from 'react'
 import { Toaster } from 'react-hot-toast'
 
@@ -8,6 +9,8 @@ import { Sidebar, FollowBar } from '@/layouts'
 
 
 export function Layout ({ children }: PropsWithChildren) {
+  const { data: session } = useSession()
+
   return (
     <>
       <Head>
@@ -22,8 +25,14 @@ export function Layout ({ children }: PropsWithChildren) {
           </div>
         </div>
       </main>
-      <LoginModal />
-      <RegisterModal />
+      {!session
+        ? (
+          <>
+            <LoginModal />
+            <RegisterModal />
+          </>
+          )
+        : null}
       <EditModal />
       <Toaster toastOptions={{ style: { backgroundColor: '#262626', color: '#eee' } }} />
     </>
