@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useSession } from 'next-auth/react'
 
 import { Header, Form } from '@/components'
 import { PostFeed } from '@/components/posts'
@@ -6,6 +7,7 @@ import { PostFeed } from '@/components/posts'
 
 
 export default function Home () {
+  const { data: session } = useSession()
   return (
     <>
       <Head>
@@ -13,7 +15,7 @@ export default function Home () {
       </Head>
       <Header label='Home' />
       <Form placeholder="What's happening?" />
-      <PostFeed />
+      {!!session && <PostFeed />}
     </>
   )
 }
