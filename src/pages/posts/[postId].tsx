@@ -43,7 +43,7 @@ export default function PostPage () {
       <Header label='Tweet' showBackArrow />
       <PostItem data={post as PostType} />
       <Form postId={post.id} isComment placeholder='Tweet your reply' />
-      <CommentFeed comments={post.comments} />
+      <CommentFeed comments={post?.comments ?? []} />
     </>
   )
 }

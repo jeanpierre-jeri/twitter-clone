@@ -1,10 +1,10 @@
 import { prisma } from './db'
 
-import type { EditFormData, User } from '@/types'
+import type { EditFormData, PublicUser } from '@/types'
 
 
 
-export const userInfo: Record<keyof User, true> = {
+export const userInfo: Record<keyof PublicUser, true> = {
   id: true,
   name: true,
   username: true,

@@ -23,3 +23,7 @@ export type PostType = Post & {
   user: User
   comments: Array<Comment>
 }
+
+export type PublicUser = Pick<User, 'id' | 'name' | 'username' | 'bio' | 'email' | 'image' | 'coverImage' | 'followingIds' | 'hasNotification' | 'updatedAt' | 'profileImage' | 'createdAt'>
+
+export type PostComment = Comment & { user: PublicUser }

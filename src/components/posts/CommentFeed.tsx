@@ -1,17 +1,18 @@
+
 import { CommentItem } from './CommentItem'
 
-import type { Comment, User } from '@prisma/client'
+import type { PostComment } from '@/types'
 
 
 
 type CommentFeedProps = {
-  comments: Array<Comment & { user: User }>
+  comments: Array<PostComment>
 }
 
 export function CommentFeed ({ comments = [] }: CommentFeedProps) {
   return (
     <>
-      {comments.map(comment => (
+      {comments?.map(comment => (
         <CommentItem key={comment.id} comment={comment} />
 
       ))}
