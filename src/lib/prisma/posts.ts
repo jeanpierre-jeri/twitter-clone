@@ -1,4 +1,5 @@
 import { prisma } from './db'
+import { userInfo } from './users'
 
 
 
@@ -19,7 +20,9 @@ export async function getPostsByUserId (userId: string) {
       userId
     },
     include: {
-      user: true,
+      user: {
+        select: userInfo
+      },
       comments: true
     },
     orderBy: {
@@ -33,7 +36,9 @@ export async function getPostsByUserId (userId: string) {
 export async function getPosts () {
   const posts = await prisma.post.findMany({
     include: {
-      user: true,
+      user: {
+        select: userInfo
+      },
       comments: true
     },
     orderBy: {
@@ -50,10 +55,14 @@ export async function getPostByIdWithUserAndComments (id: string) {
       id
     },
     include: {
-      user: true,
+      user: {
+        select: userInfo
+      },
       comments: {
         include: {
-          user: true
+          user: {
+            select: userInfo
+          }
         },
         orderBy: {
           createdAt: 'desc'

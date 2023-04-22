@@ -24,8 +24,8 @@ export async function getUsers () {
     orderBy: {
       createdAt: 'desc',
     },
-    select: userInfo,
-    take: 8
+    take: 8,
+    select: userInfo
   })
 
   return users
