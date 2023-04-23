@@ -7,6 +7,15 @@ import { type EditFormData } from '@/types'
 
 
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '4mb'
+    }
+  }
+}
+
+
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'PATCH') return res.status(405).end()
 
