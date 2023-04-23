@@ -18,6 +18,8 @@ export function EditModal () {
     isEditModalOpen
   }))
   const [isLoading, setIsLoading] = useState(false)
+  const [coverImage, setCoverImage] = useState<File>()
+  const [profileImage, setProfileImage] = useState<File>()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -26,8 +28,6 @@ export function EditModal () {
 
     const name = formData.get('name') as string
     const bio = formData.get('bio') as string
-    const coverImage = formData.get('coverImage') as File
-    const profileImage = formData.get('profileImage') as File
 
     if (!name || !bio) {
       toast.error('Name and bio are required')
@@ -36,8 +36,8 @@ export function EditModal () {
 
     setIsLoading(true)
 
-    const coverImageData = coverImage.size > 0 ? await readFileAsDataUrl(coverImage) : ''
-    const profileImageData = profileImage.size > 0 ? await readFileAsDataUrl(profileImage) : ''
+    const coverImageData = coverImage ? await readFileAsDataUrl(coverImage) : ''
+    const profileImageData = profileImage ? await readFileAsDataUrl(profileImage) : ''
 
     try {
       await axios.patch('/api/users/edit', {
@@ -71,7 +71,7 @@ export function EditModal () {
     >
       <div className='flex flex-col gap-4'>
         <div className='flex flex-col md:flex-row justify-center gap-4'>
-          <ImageUpload name='profileImage' base64={user?.profileImage ?? ''} disabled={isLoading}>
+          <ImageUpload name='profileImage' base64={user?.profileImage ?? ''} disabled={isLoading} setImage={setProfileImage}>
             Upload profile Image
           </ImageUpload>
           <ImageUpload
@@ -79,6 +79,7 @@ export function EditModal () {
             base64={user?.coverImage ?? ''}
             disabled={isLoading}
             className='aspect-video h-[100px] w-auto'
+            setImage={setCoverImage}
           >
             Upload cover Image
           </ImageUpload>

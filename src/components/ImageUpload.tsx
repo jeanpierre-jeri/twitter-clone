@@ -9,6 +9,7 @@ type ImageUploadProps = {
   disabled?: boolean
   name: string
   className?: string
+  setImage: (image: File) => void
 } & PropsWithChildren
 
 export function ImageUpload ({
@@ -16,13 +17,15 @@ export function ImageUpload ({
   children,
   disabled = false,
   name,
-  className = ''
+  className = '',
+  setImage
 }: ImageUploadProps) {
   const [base64, setBase64] = useState(initialState)
 
   const onDrop = async (files: Array<File>) => {
     const base64 = URL.createObjectURL(files[0])
     setBase64(base64)
+    setImage(files[0])
   }
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -32,7 +35,7 @@ export function ImageUpload ({
     accept: {
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png']
-    }
+    },
   })
 
   return (
